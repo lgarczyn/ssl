@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/07 16:18:53 by lgarczyn          #+#    #+#             */
-/*   Updated: 2014/11/07 16:18:55 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/09 00:49:17 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define STDIN				0
 # define STDOUT				1
 # define STDERR				2
+# define OK					0
+# define ERR				1
 
 typedef struct		s_list
 {
