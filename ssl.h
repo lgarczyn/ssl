@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/09 00:55:00 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/10 02:00:12 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_args
 	bool		reversed:1;
 }				t_args;
 
-typedef int		*t_module_fn(t_args *args);
+typedef int		(*t_module_fn)(t_args *args);
 
 typedef struct	s_module
 {
