@@ -13,6 +13,9 @@
 NAME = ft_ssl
 
 SRC =	main.c\
+		read.c\
+		md5.c\
+		sha256.c\
 		
 OBJ = $(SRC:.c=.o)
 
@@ -20,9 +23,9 @@ FLG = -Wall -Werror -Wextra
 
 LIB = -L libft/ -lft
 
-DEB =
+DEB = -g
 
-OPT = -Os
+OPT =
 
 all:
 	$(MAKE) -j8 $(NAME)
@@ -33,7 +36,7 @@ $(NAME):$(OBJ)
 	cd libft && make -j8
 	gcc $(FLG) $(OPT) $(OBJ) $(LIB) $(DEB) -o $(NAME)
 	
-%.o: %.c ft_ls.h Makefile
+%.o: %.c ssl.h Makefile
 	gcc $(FLG) $(OPT) $(DEB) -c $< $
 
 clean:
