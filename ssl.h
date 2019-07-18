@@ -14,6 +14,7 @@
 # define __SSL_H
 
 # include <stdbool.h>
+# include <stdint.h>
 
 # include "libft/includes/libft.h"
 
@@ -34,6 +35,7 @@ typedef struct	s_file
 	int			fd;
 	t_status	status;
 	int			err;
+	bool		md5_finished;
 }				t_file;
 
 t_file			open_file(char *name);
@@ -71,6 +73,36 @@ t_args			get_args(int argc, char **argv);
 
 # define MD5_BLOCK 64
 # define MD5_PAD 56
+
+typedef uint32_t t_uint;
+typedef uint8_t t_uchar;
+
+/*
+** Describes on of the 64 pass over the data
+** According to the formula:
+** var[s.ivar[0]] =
+**     var[s.ivar[1]] + ((
+**         var[s.ivar[0]]
+**         + s.fun(var[s.ivar[1]],var[s.ivar[2]],var[s.ivar[3]])
+**         + data[s.idata] + consts[i]
+**     ) <<< s.bits)
+*/
+
+typedef enum	e_md5_fun
+{
+	fun_f,
+	fun_g,
+	fun_h,
+	fun_i,
+}				t_md5_fun;
+
+typedef struct	s_md5_pass
+{
+	t_md5_fun	fun:8;
+	t_uchar		ivar[4];
+	t_uint		idata:8;
+	t_uint		bits:8;
+}				t_md5_pass;
 
 void			module_md5(t_args *args, t_file *file);
 

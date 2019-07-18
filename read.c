@@ -60,27 +60,28 @@ int				read_safe(t_file *file, char *buffer, int size)
 
 /*
 ** Read then pad file in MD5_SIZE blocks
+** Always fully fills the buffer according to spec
 */
 
 bool			read_md5(t_file *file, char *buffer)
 {
 	int 		r;
+	bool		was_ok;
 
+	if (file->md5_finished)
+		return (false);
+	was_ok = file->status == st_ok;
 	r = read_safe(file, buffer, MD5_BLOCK);
 	if (r < MD5_BLOCK)
 	{
-		buffer[r++] = 0x80;
+		if (was_ok)
+		{
+			buffer[r++] = 0x80;
+		}
 		if (r <= MD5_PAD)
 		{
-			buffer[MD5_PAD + 0] = file->size;
-			buffer[MD5_PAD + 1] = file->size >> 8;
-			buffer[MD5_PAD + 2] = file->size >> 16;
-			buffer[MD5_PAD + 3] = file->size >> 24;
-			buffer[MD5_PAD + 4] = file->size >> 32;
-			buffer[MD5_PAD + 5] = file->size >> 40;
-			buffer[MD5_PAD + 6] = file->size >> 48;
-			buffer[MD5_PAD + 7] = file->size >> 56;
-			return (false);
+			*(size_t*)(buffer + MD5_PAD) = file->size * 8;
+			file->md5_finished = true;
 		}
 	}
 	return (true);
