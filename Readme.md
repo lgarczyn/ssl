@@ -8,5 +8,6 @@
   * Big Endian support
   * Optimizations
   * Test suite
-* SHA256 reading
+  * Remove STDIO
+  * implement flags for display
 * SHA256 algorithm
