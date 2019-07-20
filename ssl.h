@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 18:58:26 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 19:15:24 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,18 @@ t_args			get_args(int argc, char **argv);
 
 # define MD5_BLOCK 64
 # define MD5_PAD 56
+# define MD5_VARS 4
 
-typedef uint32_t t_uint;
-typedef uint8_t t_uchar;
+typedef uint32_t	t_uint;
+typedef uint8_t		t_uchar;
+
+typedef enum	e_md5_fun
+{
+	fun_f,
+	fun_g,
+	fun_h,
+	fun_i,
+}				t_md5_fun;
 
 /*
 ** Describes on of the 64 pass over the data
@@ -87,14 +96,6 @@ typedef uint8_t t_uchar;
 **         + data[s.idata] + consts[i]
 **     ) <<< s.bits)
 */
-
-typedef enum	e_md5_fun
-{
-	fun_f,
-	fun_g,
-	fun_h,
-	fun_i,
-}				t_md5_fun;
 
 typedef struct	s_md5_pass
 {

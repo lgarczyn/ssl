@@ -6,80 +6,80 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:14 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 18:59:07 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 19:13:55 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ssl.h"
 
-t_md5_pass g_passes[64] = {
-	{.fun = fun_f, .ivar = {0,1,2,3}, .idata=  0, .bits=  7},
-	{.fun = fun_f, .ivar = {3,0,1,2}, .idata=  1, .bits= 12},
-	{.fun = fun_f, .ivar = {2,3,0,1}, .idata=  2, .bits= 17},
-	{.fun = fun_f, .ivar = {1,2,3,0}, .idata=  3, .bits= 22},
-	{.fun = fun_f, .ivar = {0,1,2,3}, .idata=  4, .bits=  7},
-	{.fun = fun_f, .ivar = {3,0,1,2}, .idata=  5, .bits= 12},
-	{.fun = fun_f, .ivar = {2,3,0,1}, .idata=  6, .bits= 17},
-	{.fun = fun_f, .ivar = {1,2,3,0}, .idata=  7, .bits= 22},
-	{.fun = fun_f, .ivar = {0,1,2,3}, .idata=  8, .bits=  7},
-	{.fun = fun_f, .ivar = {3,0,1,2}, .idata=  9, .bits= 12},
-	{.fun = fun_f, .ivar = {2,3,0,1}, .idata= 10, .bits= 17},
-	{.fun = fun_f, .ivar = {1,2,3,0}, .idata= 11, .bits= 22},
-	{.fun = fun_f, .ivar = {0,1,2,3}, .idata= 12, .bits=  7},
-	{.fun = fun_f, .ivar = {3,0,1,2}, .idata= 13, .bits= 12},
-	{.fun = fun_f, .ivar = {2,3,0,1}, .idata= 14, .bits= 17},
-	{.fun = fun_f, .ivar = {1,2,3,0}, .idata= 15, .bits= 22},
-	{.fun = fun_g, .ivar = {0,1,2,3}, .idata=  1, .bits=  5},
-	{.fun = fun_g, .ivar = {3,0,1,2}, .idata=  6, .bits=  9},
-	{.fun = fun_g, .ivar = {2,3,0,1}, .idata= 11, .bits= 14},
-	{.fun = fun_g, .ivar = {1,2,3,0}, .idata=  0, .bits= 20},
-	{.fun = fun_g, .ivar = {0,1,2,3}, .idata=  5, .bits=  5},
-	{.fun = fun_g, .ivar = {3,0,1,2}, .idata= 10, .bits=  9},
-	{.fun = fun_g, .ivar = {2,3,0,1}, .idata= 15, .bits= 14},
-	{.fun = fun_g, .ivar = {1,2,3,0}, .idata=  4, .bits= 20},
-	{.fun = fun_g, .ivar = {0,1,2,3}, .idata=  9, .bits=  5},
-	{.fun = fun_g, .ivar = {3,0,1,2}, .idata= 14, .bits=  9},
-	{.fun = fun_g, .ivar = {2,3,0,1}, .idata=  3, .bits= 14},
-	{.fun = fun_g, .ivar = {1,2,3,0}, .idata=  8, .bits= 20},
-	{.fun = fun_g, .ivar = {0,1,2,3}, .idata= 13, .bits=  5},
-	{.fun = fun_g, .ivar = {3,0,1,2}, .idata=  2, .bits=  9},
-	{.fun = fun_g, .ivar = {2,3,0,1}, .idata=  7, .bits= 14},
-	{.fun = fun_g, .ivar = {1,2,3,0}, .idata= 12, .bits= 20},
-	{.fun = fun_h, .ivar = {0,1,2,3}, .idata=  5, .bits=  4},
-	{.fun = fun_h, .ivar = {3,0,1,2}, .idata=  8, .bits= 11},
-	{.fun = fun_h, .ivar = {2,3,0,1}, .idata= 11, .bits= 16},
-	{.fun = fun_h, .ivar = {1,2,3,0}, .idata= 14, .bits= 23},
-	{.fun = fun_h, .ivar = {0,1,2,3}, .idata=  1, .bits=  4},
-	{.fun = fun_h, .ivar = {3,0,1,2}, .idata=  4, .bits= 11},
-	{.fun = fun_h, .ivar = {2,3,0,1}, .idata=  7, .bits= 16},
-	{.fun = fun_h, .ivar = {1,2,3,0}, .idata= 10, .bits= 23},
-	{.fun = fun_h, .ivar = {0,1,2,3}, .idata= 13, .bits=  4},
-	{.fun = fun_h, .ivar = {3,0,1,2}, .idata=  0, .bits= 11},
-	{.fun = fun_h, .ivar = {2,3,0,1}, .idata=  3, .bits= 16},
-	{.fun = fun_h, .ivar = {1,2,3,0}, .idata=  6, .bits= 23},
-	{.fun = fun_h, .ivar = {0,1,2,3}, .idata=  9, .bits=  4},
-	{.fun = fun_h, .ivar = {3,0,1,2}, .idata= 12, .bits= 11},
-	{.fun = fun_h, .ivar = {2,3,0,1}, .idata= 15, .bits= 16},
-	{.fun = fun_h, .ivar = {1,2,3,0}, .idata=  2, .bits= 23},
-	{.fun = fun_i, .ivar = {0,1,2,3}, .idata=  0, .bits=  6},
-	{.fun = fun_i, .ivar = {3,0,1,2}, .idata=  7, .bits= 10},
-	{.fun = fun_i, .ivar = {2,3,0,1}, .idata= 14, .bits= 15},
-	{.fun = fun_i, .ivar = {1,2,3,0}, .idata=  5, .bits= 21},
-	{.fun = fun_i, .ivar = {0,1,2,3}, .idata= 12, .bits=  6},
-	{.fun = fun_i, .ivar = {3,0,1,2}, .idata=  3, .bits= 10},
-	{.fun = fun_i, .ivar = {2,3,0,1}, .idata= 10, .bits= 15},
-	{.fun = fun_i, .ivar = {1,2,3,0}, .idata=  1, .bits= 21},
-	{.fun = fun_i, .ivar = {0,1,2,3}, .idata=  8, .bits=  6},
-	{.fun = fun_i, .ivar = {3,0,1,2}, .idata= 15, .bits= 10},
-	{.fun = fun_i, .ivar = {2,3,0,1}, .idata=  6, .bits= 15},
-	{.fun = fun_i, .ivar = {1,2,3,0}, .idata= 13, .bits= 21},
-	{.fun = fun_i, .ivar = {0,1,2,3}, .idata=  4, .bits=  6},
-	{.fun = fun_i, .ivar = {3,0,1,2}, .idata= 11, .bits= 10},
-	{.fun = fun_i, .ivar = {2,3,0,1}, .idata=  2, .bits= 15},
-	{.fun = fun_i, .ivar = {1,2,3,0}, .idata=  9, .bits= 21},
+static t_md5_pass g_passes[64] = {
+	{.fun = fun_f, .ivar = {0, 1, 2, 3}, .idata = 0, .bits = 7},
+	{.fun = fun_f, .ivar = {3, 0, 1, 2}, .idata = 1, .bits = 12},
+	{.fun = fun_f, .ivar = {2, 3, 0, 1}, .idata = 2, .bits = 17},
+	{.fun = fun_f, .ivar = {1, 2, 3, 0}, .idata = 3, .bits = 22},
+	{.fun = fun_f, .ivar = {0, 1, 2, 3}, .idata = 4, .bits = 7},
+	{.fun = fun_f, .ivar = {3, 0, 1, 2}, .idata = 5, .bits = 12},
+	{.fun = fun_f, .ivar = {2, 3, 0, 1}, .idata = 6, .bits = 17},
+	{.fun = fun_f, .ivar = {1, 2, 3, 0}, .idata = 7, .bits = 22},
+	{.fun = fun_f, .ivar = {0, 1, 2, 3}, .idata = 8, .bits = 7},
+	{.fun = fun_f, .ivar = {3, 0, 1, 2}, .idata = 9, .bits = 12},
+	{.fun = fun_f, .ivar = {2, 3, 0, 1}, .idata = 10, .bits = 17},
+	{.fun = fun_f, .ivar = {1, 2, 3, 0}, .idata = 11, .bits = 22},
+	{.fun = fun_f, .ivar = {0, 1, 2, 3}, .idata = 12, .bits = 7},
+	{.fun = fun_f, .ivar = {3, 0, 1, 2}, .idata = 13, .bits = 12},
+	{.fun = fun_f, .ivar = {2, 3, 0, 1}, .idata = 14, .bits = 17},
+	{.fun = fun_f, .ivar = {1, 2, 3, 0}, .idata = 15, .bits = 22},
+	{.fun = fun_g, .ivar = {0, 1, 2, 3}, .idata = 1, .bits = 5},
+	{.fun = fun_g, .ivar = {3, 0, 1, 2}, .idata = 6, .bits = 9},
+	{.fun = fun_g, .ivar = {2, 3, 0, 1}, .idata = 11, .bits = 14},
+	{.fun = fun_g, .ivar = {1, 2, 3, 0}, .idata = 0, .bits = 20},
+	{.fun = fun_g, .ivar = {0, 1, 2, 3}, .idata = 5, .bits = 5},
+	{.fun = fun_g, .ivar = {3, 0, 1, 2}, .idata = 10, .bits = 9},
+	{.fun = fun_g, .ivar = {2, 3, 0, 1}, .idata = 15, .bits = 14},
+	{.fun = fun_g, .ivar = {1, 2, 3, 0}, .idata = 4, .bits = 20},
+	{.fun = fun_g, .ivar = {0, 1, 2, 3}, .idata = 9, .bits = 5},
+	{.fun = fun_g, .ivar = {3, 0, 1, 2}, .idata = 14, .bits = 9},
+	{.fun = fun_g, .ivar = {2, 3, 0, 1}, .idata = 3, .bits = 14},
+	{.fun = fun_g, .ivar = {1, 2, 3, 0}, .idata = 8, .bits = 20},
+	{.fun = fun_g, .ivar = {0, 1, 2, 3}, .idata = 13, .bits = 5},
+	{.fun = fun_g, .ivar = {3, 0, 1, 2}, .idata = 2, .bits = 9},
+	{.fun = fun_g, .ivar = {2, 3, 0, 1}, .idata = 7, .bits = 14},
+	{.fun = fun_g, .ivar = {1, 2, 3, 0}, .idata = 12, .bits = 20},
+	{.fun = fun_h, .ivar = {0, 1, 2, 3}, .idata = 5, .bits = 4},
+	{.fun = fun_h, .ivar = {3, 0, 1, 2}, .idata = 8, .bits = 11},
+	{.fun = fun_h, .ivar = {2, 3, 0, 1}, .idata = 11, .bits = 16},
+	{.fun = fun_h, .ivar = {1, 2, 3, 0}, .idata = 14, .bits = 23},
+	{.fun = fun_h, .ivar = {0, 1, 2, 3}, .idata = 1, .bits = 4},
+	{.fun = fun_h, .ivar = {3, 0, 1, 2}, .idata = 4, .bits = 11},
+	{.fun = fun_h, .ivar = {2, 3, 0, 1}, .idata = 7, .bits = 16},
+	{.fun = fun_h, .ivar = {1, 2, 3, 0}, .idata = 10, .bits = 23},
+	{.fun = fun_h, .ivar = {0, 1, 2, 3}, .idata = 13, .bits = 4},
+	{.fun = fun_h, .ivar = {3, 0, 1, 2}, .idata = 0, .bits = 11},
+	{.fun = fun_h, .ivar = {2, 3, 0, 1}, .idata = 3, .bits = 16},
+	{.fun = fun_h, .ivar = {1, 2, 3, 0}, .idata = 6, .bits = 23},
+	{.fun = fun_h, .ivar = {0, 1, 2, 3}, .idata = 9, .bits = 4},
+	{.fun = fun_h, .ivar = {3, 0, 1, 2}, .idata = 12, .bits = 11},
+	{.fun = fun_h, .ivar = {2, 3, 0, 1}, .idata = 15, .bits = 16},
+	{.fun = fun_h, .ivar = {1, 2, 3, 0}, .idata = 2, .bits = 23},
+	{.fun = fun_i, .ivar = {0, 1, 2, 3}, .idata = 0, .bits = 6},
+	{.fun = fun_i, .ivar = {3, 0, 1, 2}, .idata = 7, .bits = 10},
+	{.fun = fun_i, .ivar = {2, 3, 0, 1}, .idata = 14, .bits = 15},
+	{.fun = fun_i, .ivar = {1, 2, 3, 0}, .idata = 5, .bits = 21},
+	{.fun = fun_i, .ivar = {0, 1, 2, 3}, .idata = 12, .bits = 6},
+	{.fun = fun_i, .ivar = {3, 0, 1, 2}, .idata = 3, .bits = 10},
+	{.fun = fun_i, .ivar = {2, 3, 0, 1}, .idata = 10, .bits = 15},
+	{.fun = fun_i, .ivar = {1, 2, 3, 0}, .idata = 1, .bits = 21},
+	{.fun = fun_i, .ivar = {0, 1, 2, 3}, .idata = 8, .bits = 6},
+	{.fun = fun_i, .ivar = {3, 0, 1, 2}, .idata = 15, .bits = 10},
+	{.fun = fun_i, .ivar = {2, 3, 0, 1}, .idata = 6, .bits = 15},
+	{.fun = fun_i, .ivar = {1, 2, 3, 0}, .idata = 13, .bits = 21},
+	{.fun = fun_i, .ivar = {0, 1, 2, 3}, .idata = 4, .bits = 6},
+	{.fun = fun_i, .ivar = {3, 0, 1, 2}, .idata = 11, .bits = 10},
+	{.fun = fun_i, .ivar = {2, 3, 0, 1}, .idata = 2, .bits = 15},
+	{.fun = fun_i, .ivar = {1, 2, 3, 0}, .idata = 9, .bits = 21},
 };
 
-t_uint consts[64] = {
+static t_uint g_consts[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
 	0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -98,6 +98,11 @@ t_uint consts[64] = {
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391,
 };
 
+#define F(x, y, z)			((z) ^ ((x) & ((y) ^ (z))))
+#define G(x, y, z)			((y) ^ ((z) & ((x) ^ (y))))
+#define H(x, y, z)			(((x) ^ (y)) ^ (z))
+#define I(x, y, z)			((y) ^ ((x) | ~(z)))
+
 static t_uint	rotate_left(t_uint value, t_uint shift)
 {
 	return (value << shift) | (value >> (32 - shift));
@@ -114,39 +119,41 @@ static void		pass(const int *data, t_uint *var)
 	{
 		s = g_passes[i];
 		if (s.fun == fun_f)
-			r = ((var[s.ivar[1]] & var[s.ivar[2]]) | (~var[s.ivar[1]] & var[s.ivar[3]]));
+			r = F(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
 		else if (s.fun == fun_g)
-			r = var[s.ivar[2]] ^ (var[s.ivar[3]] & (var[s.ivar[1]] ^ var[s.ivar[2]]));
+			r = G(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
 		else if (s.fun == fun_h)
-			r = (var[s.ivar[1]] ^ var[s.ivar[2]] ^ var[s.ivar[3]]);
+			r = H(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
 		else if (s.fun == fun_i)
-			r = (var[s.ivar[2]] ^ (var[s.ivar[1]] | ~var[s.ivar[3]]));
+			r = I(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
 		var[s.ivar[0]] = var[s.ivar[1]] + rotate_left(
 				var[s.ivar[0]]
 					+ r
 					+ data[s.idata]
-					+ consts[i],
+					+ g_consts[i],
 				s.bits);
 		i++;
 	}
 }
 
-
 void			module_md5(t_args *args, t_file *file)
 {
-	char		buffer[MD5_BLOCK + 1];
-	t_uint		var[4] = {0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476};
-	t_uint		tmp_var[4];
+	char		buffer[MD5_BLOCK];
+	t_uint		var[MD5_VARS];
+	t_uint		tmp_var[MD5_VARS];
 	int			i;
 
 	(void)args;
-	buffer[MD5_BLOCK] = '\0';
+	ft_memcpy(
+		var,
+		(t_uint[MD5_VARS]){0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476},
+		sizeof(var));
 	while (read_padded(file, buffer))
 	{
-		ft_memcpy(tmp_var, var, 4 * sizeof(t_uint));
+		ft_memcpy(tmp_var, var, sizeof(var));
 		pass((int*)buffer, var);
 		i = -1;
-		while (++i < 4)
+		while (++i < MD5_VARS)
 			var[i] += tmp_var[i];
 	}
 	i = -1;
