@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:14 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 19:13:55 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 19:25:16 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static t_uint	rotate_left(t_uint value, t_uint shift)
 	return (value << shift) | (value >> (32 - shift));
 }
 
-static void		pass(const int *data, t_uint *var)
+static void		pass(const t_uint *data, t_uint *vars)
 {
 	t_uint		r;
 	int			i;
@@ -119,15 +119,15 @@ static void		pass(const int *data, t_uint *var)
 	{
 		s = g_passes[i];
 		if (s.fun == fun_f)
-			r = F(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
+			r = F(vars[s.ivar[1]], vars[s.ivar[2]], vars[s.ivar[3]]);
 		else if (s.fun == fun_g)
-			r = G(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
+			r = G(vars[s.ivar[1]], vars[s.ivar[2]], vars[s.ivar[3]]);
 		else if (s.fun == fun_h)
-			r = H(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
+			r = H(vars[s.ivar[1]], vars[s.ivar[2]], vars[s.ivar[3]]);
 		else if (s.fun == fun_i)
-			r = I(var[s.ivar[1]], var[s.ivar[2]], var[s.ivar[3]]);
-		var[s.ivar[0]] = var[s.ivar[1]] + rotate_left(
-				var[s.ivar[0]]
+			r = I(vars[s.ivar[1]], vars[s.ivar[2]], vars[s.ivar[3]]);
+		vars[s.ivar[0]] = vars[s.ivar[1]] + rotate_left(
+				vars[s.ivar[0]]
 					+ r
 					+ data[s.idata]
 					+ g_consts[i],
@@ -139,25 +139,25 @@ static void		pass(const int *data, t_uint *var)
 void			module_md5(t_args *args, t_file *file)
 {
 	char		buffer[MD5_BLOCK];
-	t_uint		var[MD5_VARS];
-	t_uint		tmp_var[MD5_VARS];
+	t_uint		vars[MD5_VARS];
+	t_uint		tmp_vars[MD5_VARS];
 	int			i;
 
 	(void)args;
 	ft_memcpy(
-		var,
+		vars,
 		(t_uint[MD5_VARS]){0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476},
-		sizeof(var));
+		sizeof(vars));
 	while (read_padded(file, buffer))
 	{
-		ft_memcpy(tmp_var, var, sizeof(var));
-		pass((int*)buffer, var);
+		ft_memcpy(tmp_vars, vars, sizeof(vars));
+		pass((t_uint*)buffer, vars);
 		i = -1;
 		while (++i < MD5_VARS)
-			var[i] += tmp_var[i];
+			vars[i] += tmp_vars[i];
 	}
 	i = -1;
 	while (++i < 16)
-		printf("%02x", (t_uint)((unsigned char*)var)[i]);
+		printf("%02x", (t_uint)((unsigned char*)vars)[i]);
 	printf("\n");
 }
