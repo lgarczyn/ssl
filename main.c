@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:24 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/10 04:28:56 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 19:17:00 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_module		g_modules[] =
 	{NULL, NULL}
 };
 
-int					format()
+int					format(void)
 {
 	ft_putstr("./ssl {md5,sha256} [files ... ]\n");
 	return (1);
@@ -76,7 +76,7 @@ int					main(int argc, char **argv)
 	m = g_modules;
 	while (m->name)
 	{
-		if (ft_strcmp(m->name, args.module)== 0)
+		if (ft_strcmp(m->name, args.module) == 0)
 		{
 			return (dispatch(&args, m));
 		}
