@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:14 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/10 04:29:42 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:59:07 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void			module_md5(t_args *args, t_file *file)
 
 	(void)args;
 	buffer[MD5_BLOCK] = '\0';
-	while (read_md5(file, buffer))
+	while (read_padded(file, buffer))
 	{
 		ft_memcpy(tmp_var, var, 4 * sizeof(t_uint));
 		pass((int*)buffer, var);

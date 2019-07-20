@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 02:01:03 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/10 04:31:01 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:59:21 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int				read_safe(t_file *file, char *buffer, int size)
 ** Always fully fills the buffer according to spec
 */
 
-bool			read_md5(t_file *file, char *buffer)
+bool			read_padded(t_file *file, char *buffer)
 {
 	int 		r;
 	bool		was_ok;
 
-	if (file->md5_finished)
+	if (file->padding_finished)
 		return (false);
 	was_ok = file->status == st_ok;
 	r = read_safe(file, buffer, MD5_BLOCK);
@@ -81,7 +81,7 @@ bool			read_md5(t_file *file, char *buffer)
 		if (r <= MD5_PAD)
 		{
 			*(size_t*)(buffer + MD5_PAD) = file->size * 8;
-			file->md5_finished = true;
+			file->padding_finished = true;
 		}
 	}
 	return (true);

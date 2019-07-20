@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/10 03:47:54 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:58:26 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct	s_file
 	int			fd;
 	t_status	status;
 	int			err;
-	bool		md5_finished;
+	bool		padding_finished;
 }				t_file;
 
 t_file			open_file(char *name);
 int				read_safe(t_file *file, char *buffer, int size);
-bool			read_md5(t_file *file, char *buffer);
+bool			read_padded(t_file *file, char *buffer);
 
 /*
 ** Dispatching
@@ -105,6 +105,9 @@ typedef struct	s_md5_pass
 }				t_md5_pass;
 
 void			module_md5(t_args *args, t_file *file);
+
+# define SHA256_BLOCK 64
+# define SHA256_PAD 56
 
 void			module_sha256(t_args *args, t_file *file);
 
