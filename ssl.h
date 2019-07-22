@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 18:54:29 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:06:52 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <stdint.h>
 
 # include "libft/includes/libft.h"
+
+typedef uint32_t	t_uint;
+typedef uint8_t		t_uchar;
 
 /*
 ** File Management
@@ -39,8 +42,8 @@ typedef struct	s_file
 }				t_file;
 
 t_file			open_file(char *name);
-int				read_safe(t_file *file, char *buffer, int size);
-bool			read_padded(t_file *file, char *buffer);
+int				read_safe(t_file *file, t_uchar *buffer, int size);
+bool			read_padded(t_file *file, t_uchar *buffer);
 
 /*
 ** Dispatching
@@ -74,9 +77,6 @@ t_args			get_args(int argc, char **argv);
 # define MD5_BLOCK 64
 # define MD5_PAD 56
 # define MD5_VARS 4
-
-typedef uint32_t	t_uint;
-typedef uint8_t		t_uchar;
 
 typedef enum	e_md5_fun
 {
