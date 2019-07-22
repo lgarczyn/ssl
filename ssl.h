@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 19:15:24 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/22 18:54:29 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void			module_md5(t_args *args, t_file *file);
 
 # define SHA256_BLOCK 64
 # define SHA256_PAD 56
+# define SHA256_VARS 8
 
 void			module_sha256(t_args *args, t_file *file);
 
