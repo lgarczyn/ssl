@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:08 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 18:56:17 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:05:22 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void			module_sha256(t_args *args, t_file *file)
 			0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
 			0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19},
 		sizeof(vars));
-	while (read_padded(file, (char*)buffer))//change read type
+	while (read_padded(file, buffer))
 	{
 		ft_memcpy(tmp_vars, vars, sizeof(vars));
 		pass(buffer, vars);

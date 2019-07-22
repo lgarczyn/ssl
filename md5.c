@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:14 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 19:25:16 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:05:34 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ static void		pass(const t_uint *data, t_uint *vars)
 
 void			module_md5(t_args *args, t_file *file)
 {
-	char		buffer[MD5_BLOCK];
+	t_uchar		buffer[MD5_BLOCK];
 	t_uint		vars[MD5_VARS];
 	t_uint		tmp_vars[MD5_VARS];
 	int			i;
@@ -157,7 +157,7 @@ void			module_md5(t_args *args, t_file *file)
 			vars[i] += tmp_vars[i];
 	}
 	i = -1;
-	while (++i < 16)
+	while (++i < (int)sizeof(vars))
 		printf("%02x", (t_uint)((unsigned char*)vars)[i]);
 	printf("\n");
 }

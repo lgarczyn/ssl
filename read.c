@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 02:01:03 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 18:59:21 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:05:52 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_file			open_file(char *name)
 ** Read 'size' character into buffer f, unless EOF is reached or err is raised
 */
 
-int				read_safe(t_file *file, char *buffer, int size)
+int				read_safe(t_file *file, t_uchar *buffer, int size)
 {
 	int			r;
 	int			read_full;
@@ -63,7 +63,7 @@ int				read_safe(t_file *file, char *buffer, int size)
 ** Always fully fills the buffer according to spec
 */
 
-bool			read_padded(t_file *file, char *buffer)
+bool			read_padded(t_file *file, t_uchar *buffer)
 {
 	int 		r;
 	bool		was_ok;
