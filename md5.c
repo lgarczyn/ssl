@@ -108,6 +108,7 @@ static t_uint	rotate_left(t_uint value, t_uint shift)
 	return (value << shift) | (value >> (32 - shift));
 }
 
+__attribute__ ((hot))
 static void		pass(const t_uint *data, t_uint *vars)
 {
 	t_uint		r;
@@ -137,6 +138,7 @@ static void		pass(const t_uint *data, t_uint *vars)
 	}
 }
 
+__attribute__ ((hot))
 void			module_md5(t_args *args, t_file *file)
 {
 	t_uchar		buffer[MD5_BLOCK];

@@ -33,8 +33,13 @@ typedef enum	e_status
 	st_err = 2,
 }				t_status;
 
+# define BUFFER_SIZE	(4096 * 32)
+
 typedef struct	s_file
 {
+	t_uint		buffer_len;
+	t_uint		buffer_pos;
+	t_uchar		buffer[BUFFER_SIZE];
 	t_usize		size;
 	int			fd;
 	t_status	status;
@@ -49,7 +54,7 @@ typedef enum	e_endian
 }				t_endian;
 
 t_file			open_file(char *name);
-int				read_safe(t_file *file, t_uchar *buffer, int size);
+int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
 bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian);
 
 /*
@@ -59,22 +64,22 @@ bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian);
 uint32_t					swap32(uint32_t v);
 uint64_t					swap64(uint64_t v);
 
-#if defined(__i386__) || defined(__x86_64__) || defined(__vax__)
-# define SYS_ENDIAN			(little_endian)
-# define READ32_SMALL_E(b)	((t_uint)b)
-# define READ32_BIG_E(b)	((t_uint)swap32((b)))
-# define READ64_SMALL_E(b)	((t_usize)b)
-# define READ64_BIG_E(b)	((t_usize)swap64((b)))
-#else
-# define SYS_ENDIAN			(big_endian)
-# define READ32_SMALL_E(b)	((t_uint)swap32((b)))
-# define READ32_BIG_E(b)	((t_uint)b))
-# define READ64_SMALL_E(b)	((t_usize)swap64((b)))
-# define READ64_BIG_E(b)	((t_usize)b))
-#endif
+# if defined(__i386__) || defined(__x86_64__) || defined(__vax__)
+#  define SYS_ENDIAN			(little_endian)
+#  define READ32_SMALL_E(b)	((t_uint)b)
+#  define READ32_BIG_E(b)	((t_uint)swap32((b)))
+#  define READ64_SMALL_E(b)	((t_usize)b)
+#  define READ64_BIG_E(b)	((t_usize)swap64((b)))
+# else
+#  define SYS_ENDIAN			(big_endian)
+#  define READ32_SMALL_E(b)	((t_uint)swap32((b)))
+#  define READ32_BIG_E(b)	((t_uint)b))
+#  define READ64_SMALL_E(b)	((t_usize)swap64((b)))
+#  define READ64_BIG_E(b)	((t_usize)b))
+# endif
 
-#define WRITE32_E(v, l)		(l == SYS_ENDIAN ? (t_uint)(v) : swap32(v))
-#define WRITE64_E(v, l)		(l == SYS_ENDIAN ? (t_usize)(v) : swap64(v))
+# define WRITE32_E(v, l)		(l == SYS_ENDIAN ? (t_uint)(v) : swap32(v))
+# define WRITE64_E(v, l)		(l == SYS_ENDIAN ? (t_usize)(v) : swap64(v))
 
 /*
 ** Dispatching

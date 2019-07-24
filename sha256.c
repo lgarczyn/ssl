@@ -41,6 +41,7 @@ static t_uint g_consts[64] = {
 
 #define RR(val, shift)		(((val) >> (shift)) | ((val) << (32 - (shift))))
 
+__attribute__ ((hot))
 static void		pass(const t_uint *data, t_uint *var)
 {
 	int			i;
@@ -69,6 +70,7 @@ static void		pass(const t_uint *data, t_uint *var)
 	}
 }
 
+__attribute__ ((hot))
 void			module_sha256(t_args *args, t_file *file)
 {
 	t_uchar		buffer[SHA256_BLOCK];

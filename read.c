@@ -26,14 +26,38 @@ t_file			open_file(char *name)
 	return (file);
 }
 
+int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
+{
+	int			r;
+	t_uint		available;
+
+	available = file->buffer_len - file->buffer_pos;
+	r = MIN(size, available);
+	if (r > 0)
+	{
+		ft_memcpy(buffer, file->buffer + file->buffer_pos, r);
+		file->buffer_pos += r;
+		return (r);
+	}
+	file->buffer_len = 0;
+	file->buffer_pos = 0;
+	r = read(file->fd, file->buffer, BUFFER_SIZE);
+	if (r < 0)
+		return (r);
+	file->buffer_len = r;
+	file->buffer_pos = MIN(size, file->buffer_len);
+	ft_memcpy(buffer, file->buffer, file->buffer_pos);
+	return (file->buffer_pos);
+}
+
 /*
 ** Read 'size' character into buffer f, unless EOF is reached or err is raised
 */
 
-int				read_safe(t_file *file, t_uchar *buffer, int size)
+int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 {
 	int			r;
-	int			read_full;
+	t_uint			read_full;
 
 	if (file->status)
 	{
@@ -43,7 +67,7 @@ int				read_safe(t_file *file, t_uchar *buffer, int size)
 	read_full = 0;
 	while (read_full < size)
 	{
-		r = read(file->fd, buffer + read_full, size - read_full);
+		r = read_bufferized(file, buffer + read_full, size - read_full);
 		if (r <= 0)
 		{
 			ft_bzero(buffer + read_full, size - read_full);
