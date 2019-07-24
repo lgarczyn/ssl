@@ -4,10 +4,12 @@
 
 * Correct usage
 * Correct error handling
+* Reading
+  * Read larger batches at once
 * MD5 algorithm
-  * Big Endian support
   * Optimizations
-  * Test suite
   * Remove STDIO
   * implement flags for display
 * SHA256 algorithm
+  * Remove STDIO
+  * implement flags for display

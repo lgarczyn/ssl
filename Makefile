@@ -16,6 +16,7 @@ SRC =	main.c\
 		read.c\
 		md5.c\
 		sha256.c\
+		endian.c\
 		
 OBJ = $(SRC:.c=.o)
 
@@ -23,9 +24,9 @@ FLG = -Wall -Werror -Wextra
 
 LIB = -L libft/ -lft
 
-DEB = -g
+DEB =
 
-OPT =
+OPT = -O3 -flto
 
 all:
 	$(MAKE) -j8 $(NAME)

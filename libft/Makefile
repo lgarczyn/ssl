@@ -14,7 +14,7 @@ NAME = libft.a
 
 FLAGS = -Wextra -Wall
 
-LFLAGS = -Os
+LFLAGS = -O3 -flto
 
 CC = gcc
 

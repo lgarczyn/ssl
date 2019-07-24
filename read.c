@@ -63,7 +63,7 @@ int				read_safe(t_file *file, t_uchar *buffer, int size)
 ** Always fully fills the buffer according to spec
 */
 
-bool			read_padded(t_file *file, t_uchar *buffer)
+bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian)
 {
 	int 		r;
 	bool		was_ok;
@@ -80,7 +80,7 @@ bool			read_padded(t_file *file, t_uchar *buffer)
 		}
 		if (r <= MD5_PAD)
 		{
-			*(size_t*)(buffer + MD5_PAD) = file->size * 8;
+			*(t_usize*)&buffer[MD5_PAD] = WRITE64_E(file->size * 8, endian);
 			file->padding_finished = true;
 		}
 	}

@@ -118,6 +118,7 @@ static void		pass(const t_uint *data, t_uint *vars)
 	while (i < 64)
 	{
 		s = g_passes[i];
+		r = 0;
 		if (s.fun == fun_f)
 			r = F(vars[s.ivar[1]], vars[s.ivar[2]], vars[s.ivar[3]]);
 		else if (s.fun == fun_g)
@@ -129,7 +130,7 @@ static void		pass(const t_uint *data, t_uint *vars)
 		vars[s.ivar[0]] = vars[s.ivar[1]] + rotate_left(
 				vars[s.ivar[0]]
 					+ r
-					+ data[s.idata]
+					+ READ32_SMALL_E(data[s.idata])
 					+ g_consts[i],
 				s.bits);
 		i++;
@@ -148,7 +149,7 @@ void			module_md5(t_args *args, t_file *file)
 		vars,
 		(t_uint[MD5_VARS]){0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476},
 		sizeof(vars));
-	while (read_padded(file, buffer))
+	while (read_padded(file, buffer, little_endian))
 	{
 		ft_memcpy(tmp_vars, vars, sizeof(vars));
 		pass((t_uint*)buffer, vars);

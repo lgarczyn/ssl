@@ -40,35 +40,32 @@ static t_uint g_consts[64] = {
 #define SIG1(x)				(RR(x, 17) ^ RR(x, 19) ^ ((x) >> 10))
 
 #define RR(val, shift)		(((val) >> (shift)) | ((val) << (32 - (shift))))
-#define READ_INT(b)			((*b << 24) | (b[1] << 16) | (b[2] << 8) | (b[3]))
 
-static void		pass(const t_uchar *data, t_uint *var)
+static void		pass(const t_uint *data, t_uint *var)
 {
 	int			i;
 	t_uint		m[64];
-	t_uint		t;
+	t_uint		t1;
+	t_uint		t2;
 
 	i = -1;
 	while (++i < 64)
 		if (i < 16)
-			m[i] = READ_INT((data + i * 4));
+			m[i] = READ32_BIG_E(data[i]);
 		else
 			m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
 	i = -1;
 	while (++i < 64)
+		m[i] += + g_consts[i];
+	i = -1;
+	while (++i < 64)
 	{
-		t = var[7] + EP1(var[4]) + CH(var[4], var[5], var[6])
-			+ m[i]
-			+ g_consts[i];
-		var[7] = var[6];
-		var[6] = var[5];
-		var[5] = var[4];
-		var[4] = var[3] + t;
-		t += EP0(var[0]) + MAJ(var[0], var[1], var[2]);
-		var[3] = var[2];
-		var[2] = var[1];
-		var[1] = var[0];
-		var[0] = t;
+		t1 = var[7] + EP1(var[4]) + CH(var[4], var[5], var[6])
+			+ m[i];
+		t2 = EP0(var[0]) + MAJ(var[0], var[1], var[2]);
+		ft_memmove(var + 1, var, sizeof(*var) * 7);
+		var[4] += t1;
+		var[0] = t1 + t2;
 	}
 }
 
@@ -86,10 +83,10 @@ void			module_sha256(t_args *args, t_file *file)
 			0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
 			0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19},
 		sizeof(vars));
-	while (read_padded(file, buffer))
+	while (read_padded(file, buffer, big_endian))
 	{
 		ft_memcpy(tmp_vars, vars, sizeof(vars));
-		pass(buffer, vars);
+		pass((t_uint*)buffer, vars);
 		i = -1;
 		while (++i < SHA256_VARS)
 			vars[i] += tmp_vars[i];
