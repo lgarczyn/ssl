@@ -23,7 +23,7 @@ static t_module		g_modules[] =
 
 int					format(void)
 {
-	ft_putstr("./ssl {md5,sha256} [files ... ]\n");
+	ft_putstr("usage: ft_ssl COMMAND [OPTION]... [-s STRING] [FILE]...\n");
 	return (1);
 }
 
@@ -31,6 +31,7 @@ t_args				get_args(int argc, char **argv)
 {
 	t_args			args;
 
+	args.path = argv[0];
 	args.module = argv[1];
 	args.argc = argc - 2;
 	args.argv = argv + 2;
@@ -56,7 +57,11 @@ int					dispatch(t_args *args, t_module *module)
 		}
 		if (file.status == st_err)
 		{
-			printf("err %s %s %i\n", args->module, args->argv[i], file.err);
+			printf("%s %s: %s: %s\n",
+				args->path,
+				args->module,
+				args->argv[i],
+				strerror(file.err));
 		}
 		i++;
 	}
@@ -82,5 +87,9 @@ int					main(int argc, char **argv)
 		}
 		m++;
 	}
+	printf("%s: Error: '%s' is an invalid command.\n\
+Message Digest commands:\n\tmd5\n\tsha256\n",
+		args.path,
+		args.module);
 	return (format());
 }

@@ -87,6 +87,7 @@ uint64_t					swap64(uint64_t v);
 
 typedef struct	s_args
 {
+	char		*path;
 	char		*module;
 	char		**argv;
 	int			argc;
@@ -152,7 +153,7 @@ void			module_sha256(t_args *args, t_file *file);
 #endif
 
 /*
-** Encoding
+** Display
 */
 
 void			print_hash(t_uint *vars, t_uint size, t_endian endian, t_args *args);

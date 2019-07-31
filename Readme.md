@@ -2,8 +2,6 @@
 
 ## TODO
 
-* Correct usage
-* Correct error handling
 * Reading
   * Read larger batches at once
 * MD5 algorithm
