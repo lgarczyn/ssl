@@ -19,10 +19,21 @@ t_file			open_file(char *name)
 {
 	t_file		file;
 
+	ft_bzero(&file, sizeof(file));
+	file.name = name;
 	file.fd = open(name, O_RDONLY);
 	file.status = file.fd < 0 ? st_err : st_ok;
 	file.err = file.status == st_err ? errno : 0;
 	file.size = 0;
+	return (file);
+}
+
+t_file			open_stdin()
+{
+	t_file		file;
+
+	ft_bzero(&file, sizeof(file));
+	file.name = "-";
 	return (file);
 }
 

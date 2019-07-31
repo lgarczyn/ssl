@@ -47,6 +47,11 @@ int					dispatch(t_args *args, t_module *module)
 
 	i = 0;
 	err = 0;
+	if (args->argc == 0)
+	{
+		file = open_stdin();
+		module->fn(args, &file);
+	}
 	while (i < args->argc)
 	{
 		file = open_file(args->argv[i]);

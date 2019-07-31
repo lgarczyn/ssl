@@ -40,6 +40,7 @@ typedef struct	s_file
 	t_uint		buffer_len;
 	t_uint		buffer_pos;
 	t_uchar		buffer[BUFFER_SIZE];
+	char		*name;
 	t_usize		size;
 	int			fd;
 	t_status	status;
@@ -54,6 +55,7 @@ typedef enum	e_endian
 }				t_endian;
 
 t_file			open_file(char *name);
+t_file			open_stdin();
 int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
 bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian);
 
