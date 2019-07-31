@@ -93,8 +93,5 @@ void			module_sha256(t_args *args, t_file *file)
 		while (++i < SHA256_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	i = -1;
-	while (++i < SHA256_VARS)
-		printf("%08x", vars[i]);
-	printf(" a\n");
+	print_hash(vars, SHA256_VARS, big_endian, args);
 }

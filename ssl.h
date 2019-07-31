@@ -150,3 +150,9 @@ void			module_md5(t_args *args, t_file *file);
 void			module_sha256(t_args *args, t_file *file);
 
 #endif
+
+/*
+** Encoding
+*/
+
+void			print_hash(t_uint *vars, t_uint size, t_endian endian, t_args *args);

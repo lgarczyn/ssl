@@ -17,6 +17,7 @@ SRC =	main.c\
 		md5.c\
 		sha256.c\
 		endian.c\
+		print.c\
 		
 OBJ = $(SRC:.c=.o)
 
