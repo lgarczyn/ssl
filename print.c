@@ -37,6 +37,8 @@ static void	print_uint(t_uint v, t_endian endian)
 
 static void	print_file(t_file *file)
 {
+	if (file->type == ty_stdin || file->type == ty_stdin_print)
+		return;
 	if (file->type == ty_string)
 		ft_putchar('"');
 	ft_putstr(file->name);
@@ -45,7 +47,9 @@ static void	print_file(t_file *file)
 }
 
 static void print_prologue(t_file *file, t_args *args)
-{	
+{
+	if (file->type == ty_stdin || file->type == ty_stdin_print)
+		return;
 	ft_putstr(args->module->display_name);
 	ft_putstr(" (");
 	print_file(file);
