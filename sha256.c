@@ -93,5 +93,5 @@ void			module_sha256(t_args *args, t_file *file)
 		while (++i < SHA256_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	print_hash(vars, SHA256_VARS, big_endian, args);
+	print_hash(vars, SHA256_VARS, big_endian, file, args);
 }

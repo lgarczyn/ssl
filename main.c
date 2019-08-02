@@ -14,60 +14,83 @@
 #include <stdio.h>
 #include <unistd.h>
 
+
 static t_module		g_modules[] =
 {
-	{"md5", &module_md5},
-	{"sha256", &module_sha256},
-	{NULL, NULL}
+	{"md5", "MD5", &module_md5},
+	{"sha256", "SHA256", &module_sha256},
+	{NULL, NULL, NULL}
 };
-
-int					format(void)
-{
-	ft_putstr("usage: ft_ssl COMMAND [OPTION]... [-s STRING] [FILE]...\n");
-	return (1);
-}
 
 t_args				get_args(int argc, char **argv)
 {
 	t_args			args;
+	t_module		*m;
 
-	args.path = argv[0];
-	args.module = argv[1];
-	args.argc = argc - 2;
-	args.argv = argv + 2;
-	args.err = 0;
+	args = (t_args){.path = argv[0], .argc = argc - 2, .argv = argv + 2};
+	while (*args.argv)
+	{
+		if (ft_strcmp(*args.argv, "-q") == 0)
+			args.quiet = true;
+		else if (ft_strcmp(*args.argv, "-r") == 0)
+			args.reversed = true;
+		else if (ft_strcmp(*args.argv, "-p") == 0)
+			args.print_stdin = true;
+		else
+			break;
+		args.argc--;
+		args.argv++;
+	}
+	m = g_modules;
+	while (m->name)
+	{
+		if (ft_strcmp(m->name, argv[1]) == 0)
+			args.module = m;
+		m++;
+	}
 	return (args);
 }
 
-int					dispatch(t_args *args, t_module *module)
+int					format(void)
 {
-	int				i;
+	ft_putstr("usage: ft_ssl COMMAND [OPTION]... [-s STRING] [FILE]...\n");
+	return (ERR);
+}
+
+static int			dispatch_hash(t_args *args, t_file *file)
+{
+	if (file->status == st_ok)
+		args->module->fn(args, file);
+	if (file->status == st_err)
+	{
+		printf("%s %s: %s: %s\n",
+			args->path, args->module->name, file->name,
+			strerror(file->err));
+	}
+	close_file(file);
+	return (file->status == st_err);
+}
+
+static int			dispatch(t_args *args)
+{
 	int				err;
+	int				i;
 	t_file			file;
 
-	i = 0;
 	err = 0;
-	if (args->argc == 0)
+	if (args->argc == 0 || args->take_input)
 	{
-		file = open_stdin();
-		module->fn(args, &file);
+		file = open_stdin(args);
+		err |= dispatch_hash(args, &file);
 	}
+	i = 0;
 	while (i < args->argc)
 	{
-		file = open_file(args->argv[i]);
-		if (file.status == st_ok)
-		{
-			module->fn(args, &file);
-			close(file.fd);
-		}
-		if (file.status == st_err)
-		{
-			printf("%s %s: %s: %s\n",
-				args->path,
-				args->module,
-				args->argv[i],
-				strerror(file.err));
-		}
+		if (ft_strcmp(args->argv[i], "-s") == 0 && i + 1 < args->argc)
+			file = open_string(args->argv[++i]);
+		else
+			file = open_file(args->argv[i]);
+		err |= dispatch_hash(args, &file);
 		i++;
 	}
 	return (err);
@@ -76,25 +99,17 @@ int					dispatch(t_args *args, t_module *module)
 int					main(int argc, char **argv)
 {
 	t_args			args;
-	t_module		*m;
 
 	if (argc <= 1)
 		return (format());
 	args = get_args(argc, argv);
 	if (args.err)
 		return (ERR);
-	m = g_modules;
-	while (m->name)
-	{
-		if (ft_strcmp(m->name, args.module) == 0)
-		{
-			return (dispatch(&args, m));
-		}
-		m++;
-	}
+	if (args.module)
+		return (dispatch(&args));
 	printf("%s: Error: '%s' is an invalid command.\n\
 Message Digest commands:\n\tmd5\n\tsha256\n",
 		args.path,
-		args.module);
+		args.module->name);
 	return (format());
 }

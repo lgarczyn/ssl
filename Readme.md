@@ -3,9 +3,14 @@
 ## TODO
 
 * Remove STDIO
-* Reading
-  * Read larger batches at once
-* MD5 algorithm
-  * implement flags for display
-* SHA256 algorithm
-  * implement flags for display
+* Clean main
+* Figure out how to handle errors
+* Add stdin print (file flag)
+* Clean t_file
+  * type
+  * err
+* Add bonuses
+  * Better parser (-s anywhere)
+  * Help flag
+  * Instruction reader
+  * Another Hasher

@@ -11,31 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <fcntl.h>
 #include "ssl.h"
-#include "errno.h"
-
-t_file			open_file(char *name)
-{
-	t_file		file;
-
-	ft_bzero(&file, sizeof(file));
-	file.name = name;
-	file.fd = open(name, O_RDONLY);
-	file.status = file.fd < 0 ? st_err : st_ok;
-	file.err = file.status == st_err ? errno : 0;
-	file.size = 0;
-	return (file);
-}
-
-t_file			open_stdin()
-{
-	t_file		file;
-
-	ft_bzero(&file, sizeof(file));
-	file.name = "-";
-	return (file);
-}
 
 int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
 {
@@ -52,7 +28,9 @@ int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
 	}
 	file->buffer_len = 0;
 	file->buffer_pos = 0;
-	r = read(file->fd, file->buffer, BUFFER_SIZE);
+	r = 0;
+	if (file->type != ty_string)
+		r = read(file->fd, file->buffer, BUFFER_SIZE);
 	if (r < 0)
 		return (r);
 	file->buffer_len = r;
@@ -68,7 +46,7 @@ int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
 int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 {
 	int			r;
-	t_uint			read_full;
+	t_uint		read_full;
 
 	if (file->status)
 	{

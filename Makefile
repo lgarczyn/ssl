@@ -18,6 +18,7 @@ SRC =	main.c\
 		sha256.c\
 		endian.c\
 		print.c\
+		file.c\
 		
 OBJ = $(SRC:.c=.o)
 
@@ -27,7 +28,7 @@ LIB = -L libft/ -lft
 
 DEB =
 
-OPT = -O3 -flto
+OPT = -g # -O3 -flto
 
 all:
 	$(MAKE) -j8 $(NAME)

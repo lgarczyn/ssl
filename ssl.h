@@ -33,16 +33,24 @@ typedef enum	e_status
 	st_err = 2,
 }				t_status;
 
+typedef enum	e_type
+{
+	ty_file = 0,
+	ty_stdin = 1,
+	ty_string = 2,
+}				t_type;
+
 # define BUFFER_SIZE	(4096 * 32)
 
 typedef struct	s_file
 {
 	t_uint		buffer_len;
 	t_uint		buffer_pos;
-	t_uchar		buffer[BUFFER_SIZE];
+	t_uchar		*buffer;
 	char		*name;
 	t_usize		size;
 	int			fd;
+	t_type		type;
 	t_status	status;
 	int			err;
 	bool		padding_finished;
@@ -56,6 +64,8 @@ typedef enum	e_endian
 
 t_file			open_file(char *name);
 t_file			open_stdin();
+t_file			open_string(char *data);
+void			close_file(t_file *file);
 int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
 bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian);
 
@@ -87,25 +97,29 @@ uint64_t					swap64(uint64_t v);
 ** Dispatching
 */
 
-typedef struct	s_args
-{
-	char		*path;
-	char		*module;
-	char		**argv;
-	int			argc;
-	int			err;
-	bool		quiet:1;
-	bool		print_stdin:1;
-	bool		reversed:1;
-}				t_args;
+struct s_args;
 
-typedef void	(*t_module_fn)(t_args *args, t_file *file);
+typedef void	(*t_module_fn)(struct s_args *args, t_file *file);
 
 typedef struct	s_module
 {
 	char		*name;
+	char		*display_name;
 	t_module_fn	fn;
 }				t_module;
+
+typedef struct	s_args
+{
+	char		*path;
+	char		**argv;
+	int			argc;
+	t_module	*module;
+	int			err;
+	bool		quiet:1;
+	bool		print_stdin:1;
+	bool		reversed:1;
+	bool		take_input:1;
+}				t_args;
 
 t_args			get_args(int argc, char **argv);
 
@@ -158,4 +172,4 @@ void			module_sha256(t_args *args, t_file *file);
 ** Display
 */
 
-void			print_hash(t_uint *vars, t_uint size, t_endian endian, t_args *args);
+void			print_hash(t_uint *vars, t_uint size, t_endian endian, t_file *file, t_args *args);

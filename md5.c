@@ -159,5 +159,5 @@ void			module_md5(t_args *args, t_file *file)
 		while (++i < MD5_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	print_hash(vars, MD5_VARS, little_endian, args);
+	print_hash(vars, MD5_VARS, little_endian, file, args);
 }
