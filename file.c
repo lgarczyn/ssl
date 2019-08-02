@@ -31,14 +31,14 @@ t_file			open_file(char *name)
 	return (file);
 }
 
-t_file			open_stdin()
+t_file			open_stdin(bool print_stdin)
 {
 	t_file		file;
 
 	ft_bzero(&file, sizeof(file));
 	file.name = "-";
 	file.buffer = malloc(BUFFER_SIZE);
-	file.type = ty_stdin;
+	file.type = print_stdin ? ty_stdin_print : ty_stdin;
 	return (file);
 }
 

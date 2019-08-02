@@ -35,9 +35,10 @@ typedef enum	e_status
 
 typedef enum	e_type
 {
-	ty_file = 0,
-	ty_stdin = 1,
-	ty_string = 2,
+	ty_file,
+	ty_stdin,
+	ty_stdin_print,
+	ty_string,
 }				t_type;
 
 # define BUFFER_SIZE	(4096 * 32)
@@ -63,7 +64,7 @@ typedef enum	e_endian
 }				t_endian;
 
 t_file			open_file(char *name);
-t_file			open_stdin();
+t_file			open_stdin(bool print_input);
 t_file			open_string(char *data);
 void			close_file(t_file *file);
 int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
@@ -118,7 +119,6 @@ typedef struct	s_args
 	bool		quiet:1;
 	bool		print_stdin:1;
 	bool		reversed:1;
-	bool		take_input:1;
 }				t_args;
 
 t_args			get_args(int argc, char **argv);

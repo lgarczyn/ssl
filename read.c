@@ -30,7 +30,11 @@ int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
 	file->buffer_pos = 0;
 	r = 0;
 	if (file->type != ty_string)
+	{
 		r = read(file->fd, file->buffer, BUFFER_SIZE);
+		if (file->type == ty_stdin_print)
+			write(STDOUT, file->buffer, r);
+	}
 	if (r < 0)
 		return (r);
 	file->buffer_len = r;

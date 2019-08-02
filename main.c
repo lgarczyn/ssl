@@ -78,9 +78,9 @@ static int			dispatch(t_args *args)
 	t_file			file;
 
 	err = 0;
-	if (args->argc == 0 || args->take_input)
+	if (args->argc == 0 || args->print_stdin)
 	{
-		file = open_stdin(args);
+		file = open_stdin(args->print_stdin);
 		err |= dispatch_hash(args, &file);
 	}
 	i = 0;
