@@ -3,14 +3,8 @@
 ## TODO
 
 * Remove STDIO
-* Clean main
-* Figure out how to handle errors
-* Add stdin print (file flag)
-* Clean t_file
-  * type
-  * err
 * Add bonuses
-  * Better parser (-s anywhere)
+  * x Better parser (-s anywhere)
   * Help flag
   * Instruction reader
   * Another Hasher
