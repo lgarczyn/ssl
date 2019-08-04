@@ -63,9 +63,14 @@ static int			dispatch_hash(t_args *args, t_file *file)
 		args->module->fn(args, file);
 	if (file->status == st_err)
 	{
-		printf("%s %s: %s: %s\n",
-			args->path, args->module->name, file->name,
-			strerror(file->err));
+		ft_putstr(args->path);
+		ft_putchar(' ');
+		ft_putstr(args->module->name);
+		ft_putstr(": ");
+		ft_putstr(file->name);
+		ft_putstr(": ");
+		ft_putstr(strerror(file->err));
+		ft_putchar('\n');			
 	}
 	close_file(file);
 	return (file->status == st_err);
@@ -107,9 +112,13 @@ int					main(int argc, char **argv)
 		return (ERR);
 	if (args.module)
 		return (dispatch(&args));
-	printf("%s: Error: '%s' is an invalid command.\n\
-Message Digest commands:\n\tmd5\n\tsha256\n",
-		args.path,
-		args.module->name);
+	ft_putstr(args.path);
+	ft_putstr(": Error: '");
+	ft_putstr(argv[1]);
+	ft_putstr(
+"' is an invalid command.\n\
+Message Digest commands:\n\
+\tmd5\n\
+\tsha256\n");
 	return (format());
 }

@@ -2,7 +2,6 @@
 
 ## TODO
 
-* Remove STDIO
 * Add bonuses
   * x Better parser (-s anywhere)
   * Help flag
