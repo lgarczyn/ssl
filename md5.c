@@ -151,7 +151,7 @@ void			module_md5(t_args *args, t_file *file)
 		vars,
 		(t_uint[MD5_VARS]){0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476},
 		sizeof(vars));
-	while (read_padded(file, buffer, little_endian))
+	while (read_padded_32(file, buffer, little_endian))
 	{
 		ft_memcpy(tmp_vars, vars, sizeof(vars));
 		pass((t_uint*)buffer, vars);
@@ -159,5 +159,5 @@ void			module_md5(t_args *args, t_file *file)
 		while (++i < MD5_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	print_hash(vars, MD5_VARS, little_endian, file, args);
+	print_hash_32(vars, MD5_VARS, little_endian, file, args);
 }

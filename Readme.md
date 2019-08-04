@@ -2,8 +2,7 @@
 
 ## TODO
 
+* Check on 32 bit machine
 * Add bonuses
   * x Better parser (-s anywhere)
-  * Help flag
   * Instruction reader
-  * Another Hasher

@@ -18,6 +18,11 @@
 
 # include "libft/includes/libft.h"
 
+/*
+** Types
+*/
+
+typedef uint64_t	t_ulong;
 typedef uint64_t	t_usize;
 typedef uint32_t	t_uint;
 typedef uint8_t		t_uchar;
@@ -68,7 +73,8 @@ t_file			open_stdin(bool print_input);
 t_file			open_string(char *data);
 void			close_file(t_file *file);
 int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
-bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian);
+bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian);
+bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian);
 
 /*
 ** Endianness
@@ -166,10 +172,17 @@ void			module_md5(t_args *args, t_file *file);
 
 void			module_sha256(t_args *args, t_file *file);
 
+# define SHA512_BLOCK	128
+# define SHA512_PAD		112
+# define SHA512_VARS	8
+
+void			module_sha512(t_args *args, t_file *file);
+
 #endif
 
 /*
 ** Display
 */
 
-void			print_hash(t_uint *vars, t_uint size, t_endian endian, t_file *file, t_args *args);
+void			print_hash_32(t_uint *vars, t_uint size, t_endian endian, t_file *file, t_args *args);
+void			print_hash_64(t_ulong *vars, t_uint size, t_endian endian, t_file *file, t_args *args);

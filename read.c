@@ -80,7 +80,7 @@ int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 ** Always fully fills the buffer according to spec
 */
 
-bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian)
+bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian)
 {
 	int 		r;
 	bool		was_ok;
@@ -98,6 +98,36 @@ bool			read_padded(t_file *file, t_uchar *buffer, t_endian endian)
 		if (r <= MD5_PAD)
 		{
 			*(t_usize*)&buffer[MD5_PAD] = WRITE64_E(file->size * 8, endian);
+			file->padding_finished = true;
+		}
+	}
+	return (true);
+}
+
+
+/*
+** Read then pad file in MD5_SIZE blocks
+** Always fully fills the buffer according to spec
+*/
+
+bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian)
+{
+	int 		r;
+	bool		was_ok;
+
+	if (file->padding_finished)
+		return (false);
+	was_ok = file->status == st_ok;
+	r = read_safe(file, buffer, SHA512_BLOCK);
+	if (r < SHA512_BLOCK)
+	{
+		if (was_ok)
+		{
+			buffer[r++] = 0x80;
+		}
+		if (r <= SHA512_PAD)
+		{
+			*(t_usize*)&buffer[SHA512_PAD + 8] = WRITE64_E(file->size * 8, endian);
 			file->padding_finished = true;
 		}
 	}

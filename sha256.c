@@ -31,6 +31,8 @@ static t_uint g_consts[64] = {
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
 };
 
+#define RR(val, shift)		(((val) >> (shift)) | ((val) << (32 - (shift))))
+
 #define CH(x, y, z)			(((x) & (y)) ^ (~(x) & (z)))
 #define MAJ(x, y, z)		(((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
 
@@ -38,8 +40,6 @@ static t_uint g_consts[64] = {
 #define EP1(x)				(RR(x, 6) ^ RR(x, 11) ^ RR(x, 25))
 #define SIG0(x)				(RR(x, 7) ^ RR(x, 18) ^ ((x) >> 3))
 #define SIG1(x)				(RR(x, 17) ^ RR(x, 19) ^ ((x) >> 10))
-
-#define RR(val, shift)		(((val) >> (shift)) | ((val) << (32 - (shift))))
 
 __attribute__ ((hot))
 static void		pass(const t_uint *data, t_uint *var)
@@ -57,7 +57,7 @@ static void		pass(const t_uint *data, t_uint *var)
 			m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
 	i = -1;
 	while (++i < 64)
-		m[i] += + g_consts[i];
+		m[i] += g_consts[i];
 	i = -1;
 	while (++i < 64)
 	{
@@ -78,14 +78,13 @@ void			module_sha256(t_args *args, t_file *file)
 	t_uint		tmp_vars[SHA256_VARS];
 	int			i;
 
-	(void)args;
 	ft_memcpy(
 		vars,
 		(t_uint[SHA256_VARS]){
 			0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
 			0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19},
 		sizeof(vars));
-	while (read_padded(file, buffer, big_endian))
+	while (read_padded_32(file, buffer, big_endian))
 	{
 		ft_memcpy(tmp_vars, vars, sizeof(vars));
 		pass((t_uint*)buffer, vars);
@@ -93,5 +92,5 @@ void			module_sha256(t_args *args, t_file *file)
 		while (++i < SHA256_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	print_hash(vars, SHA256_VARS, big_endian, file, args);
+	print_hash_32(vars, SHA256_VARS, big_endian, file, args);
 }

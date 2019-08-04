@@ -17,6 +17,7 @@ static t_module		g_modules[] =
 {
 	{"md5", "MD5", &module_md5},
 	{"sha256", "SHA256", &module_sha256},
+	{"sha512", "SHA512", &module_sha512},
 	{NULL, NULL, NULL}
 };
 

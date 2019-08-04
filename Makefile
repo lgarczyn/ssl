@@ -16,6 +16,7 @@ SRC =	main.c\
 		read.c\
 		md5.c\
 		sha256.c\
+		sha512.c\
 		endian.c\
 		print.c\
 		file.c\
