@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "ssl.h"
-#include <stdio.h>
 #include <unistd.h>
-
 
 static t_module		g_modules[] =
 {
