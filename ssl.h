@@ -54,7 +54,8 @@ typedef struct	s_file
 	t_uint		buffer_pos;
 	t_uchar		*buffer;
 	char		*name;
-	t_usize		size;
+	t_usize		size_lo;
+	t_usize		size_hi;
 	int			fd;
 	t_type		type;
 	t_status	status;
@@ -66,6 +67,7 @@ t_file			open_file(char *name);
 t_file			open_stdin(bool print_input);
 t_file			open_string(char *data);
 void			close_file(t_file *file);
+void			add_size(t_file *file, t_uint size);
 
 /*
 ** Endianness

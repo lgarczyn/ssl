@@ -26,7 +26,6 @@ t_file			open_file(char *name)
 	file.status = file.fd < 0 ? st_err : st_ok;
 	file.err = file.status == st_err ? errno : 0;
 	file.type = ty_file;
-	file.size = 0;
 	file.buffer = malloc(BUFFER_SIZE);
 	return (file);
 }
@@ -60,4 +59,11 @@ void			close_file(t_file *file)
 		close(file->fd);
 	if (file->type != ty_string)
 		free(file->buffer);
+}
+
+void			add_size(t_file *file, t_uint add)
+{
+	file->size_lo += add;
+	if (file->size_lo < add)
+		file->size_hi++;
 }

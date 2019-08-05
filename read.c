@@ -66,12 +66,11 @@ int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 			ft_bzero(buffer + read_full, size - read_full);
 			file->status = r < 0 ? st_err : st_eof;
 			file->err = file->status == st_err ? errno : 0;
-			file->size += read_full;
-			return (read_full);
+			break;
 		}
 		read_full += r;
 	}
-	file->size += read_full;
+	add_size(file, read_full);
 	return (read_full);
 }
 
@@ -97,7 +96,7 @@ bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian)
 		}
 		if (r <= MD5_PAD)
 		{
-			*(t_usize*)&buffer[MD5_PAD] = WRITE64_E(file->size * 8, endian);
+			*(t_usize*)&buffer[MD5_PAD] = WRITE64_E(file->size_lo * 8, endian);
 			file->padding_finished = true;
 		}
 	}
@@ -127,7 +126,8 @@ bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian)
 		}
 		if (r <= SHA512_PAD)
 		{
-			*(t_usize*)&buffer[SHA512_PAD + 8] = WRITE64_E(file->size * 8, endian);
+			*(t_usize*)&buffer[SHA512_PAD] = WRITE64_E(file->size_hi * 8, endian);
+			*(t_usize*)&buffer[SHA512_PAD + 8] = WRITE64_E(file->size_lo * 8, endian);
 			file->padding_finished = true;
 		}
 	}
