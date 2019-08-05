@@ -62,23 +62,20 @@ typedef struct	s_file
 	bool		padding_finished;
 }				t_file;
 
+t_file			open_file(char *name);
+t_file			open_stdin(bool print_input);
+t_file			open_string(char *data);
+void			close_file(t_file *file);
+
+/*
+** Endianness
+*/
+
 typedef enum	e_endian
 {
 	little_endian,
 	big_endian,
 }				t_endian;
-
-t_file			open_file(char *name);
-t_file			open_stdin(bool print_input);
-t_file			open_string(char *data);
-void			close_file(t_file *file);
-int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
-bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian);
-bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian);
-
-/*
-** Endianness
-*/
 
 uint32_t					swap32(uint32_t v);
 uint64_t					swap64(uint64_t v);
@@ -99,6 +96,14 @@ uint64_t					swap64(uint64_t v);
 
 # define WRITE32_E(v, l)		(l == SYS_ENDIAN ? (t_uint)(v) : swap32(v))
 # define WRITE64_E(v, l)		(l == SYS_ENDIAN ? (t_usize)(v) : swap64(v))
+
+/*
+** Reading
+*/
+
+int				read_safe(t_file *file, t_uchar *buffer, t_uint size);
+bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian);
+bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian);
 
 /*
 ** Dispatching
@@ -184,5 +189,4 @@ void			module_sha512(t_args *args, t_file *file);
 ** Display
 */
 
-void			print_hash_32(t_uint *vars, t_uint size, t_endian endian, t_file *file, t_args *args);
-void			print_hash_64(t_ulong *vars, t_uint size, t_endian endian, t_file *file, t_args *args);
+void			print_hash(t_uchar *data, t_uint size, t_file *file, t_args *args);

@@ -2,9 +2,10 @@
 
 ## TODO
 
-* Clean printer
 * Clean sha512 reader
 * Check on 32 bit machine
+* Check on big endian machine
 * Add bonuses
   * x Better parser (-s anywhere)
+  * x Sha512
   * Instruction reader

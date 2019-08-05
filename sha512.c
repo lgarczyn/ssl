@@ -123,5 +123,8 @@ void			module_sha512(t_args *args, t_file *file)
 		while (++i < SHA512_VARS)
 			vars[i] += tmp_vars[i];
 	}
-	print_hash_64(vars, SHA512_VARS, big_endian, file, args);
+	i = -1;
+	while (++i < SHA512_VARS)
+		vars[i] = READ64_BIG_E(vars[i]);
+	print_hash((t_uchar*)vars, sizeof(vars), file, args);
 }
