@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:21 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 19:06:52 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:37:37 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef enum	e_endian
 	big_endian,
 }				t_endian;
 
-uint32_t					swap32(uint32_t v);
-uint64_t					swap64(uint64_t v);
+uint32_t		swap32(uint32_t v);
+uint64_t		swap64(uint64_t v);
 
 # if defined(__i386__) || defined(__x86_64__) || defined(__vax__)
 #  define SYS_ENDIAN			(little_endian)
@@ -185,10 +185,11 @@ void			module_sha256(t_args *args, t_file *file);
 
 void			module_sha512(t_args *args, t_file *file);
 
-#endif
-
 /*
 ** Display
 */
 
-void			print_hash(t_uchar *data, t_uint size, t_file *file, t_args *args);
+void			print_hash(t_uchar *data, t_uint size,
+	t_file *file, t_args *args);
+
+#endif

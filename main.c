@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 00:40:24 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/20 19:17:00 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:36:02 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_args				get_args(int argc, char **argv)
 		else if (ft_strcmp(*args.argv, "-p") == 0)
 			args.print_stdin = true;
 		else
-			break;
+			break ;
 		args.argc--;
 		args.argv++;
 	}
@@ -69,7 +69,7 @@ static int			dispatch_hash(t_args *args, t_file *file)
 		ft_putstr(file->name);
 		ft_putstr(": ");
 		ft_putstr(strerror(file->err));
-		ft_putchar('\n');			
+		ft_putchar('\n');
 	}
 	close_file(file);
 	return (file->status == st_err);

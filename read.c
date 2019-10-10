@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 02:01:03 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 19:05:52 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:43:20 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int				read_bufferized(t_file *file, t_uchar *buffer, t_uint size)
 	}
 	file->buffer_len = 0;
 	file->buffer_pos = 0;
-	r = 0;
 	if (file->type != ty_string)
 	{
 		r = read(file->fd, file->buffer, BUFFER_SIZE);
@@ -66,7 +65,7 @@ int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 			ft_bzero(buffer + read_full, size - read_full);
 			file->status = r < 0 ? st_err : st_eof;
 			file->err = file->status == st_err ? errno : 0;
-			break;
+			break ;
 		}
 		read_full += r;
 	}
@@ -81,7 +80,7 @@ int				read_safe(t_file *file, t_uchar *buffer, t_uint size)
 
 bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian)
 {
-	int 		r;
+	int			r;
 	bool		was_ok;
 
 	if (file->padding_finished)
@@ -103,7 +102,6 @@ bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian)
 	return (true);
 }
 
-
 /*
 ** Read then pad file in MD5_SIZE blocks
 ** Always fully fills the buffer according to spec
@@ -111,7 +109,7 @@ bool			read_padded_32(t_file *file, t_uchar *buffer, t_endian endian)
 
 bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian)
 {
-	int 		r;
+	int			r;
 	bool		was_ok;
 
 	if (file->padding_finished)
@@ -126,11 +124,12 @@ bool			read_padded_64(t_file *file, t_uchar *buffer, t_endian endian)
 		}
 		if (r <= SHA512_PAD)
 		{
-			*(t_usize*)&buffer[SHA512_PAD] = WRITE64_E(file->size_hi * 8, endian);
-			*(t_usize*)&buffer[SHA512_PAD + 8] = WRITE64_E(file->size_lo * 8, endian);
+			*(t_usize*)&buffer[SHA512_PAD] =
+				WRITE64_E(file->size_hi * 8, endian);
+			*(t_usize*)&buffer[SHA512_PAD + 8] =
+				WRITE64_E(file->size_lo * 8, endian);
 			file->padding_finished = true;
 		}
 	}
 	return (true);
 }
-
