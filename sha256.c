@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:08 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/10/10 19:40:00 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:46:52 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static t_uint g_consts[64] = {
 #define SIG0(x)				(RR(x, 7) ^ RR(x, 18) ^ ((x) >> 3))
 #define SIG1(x)				(RR(x, 17) ^ RR(x, 19) ^ ((x) >> 10))
 
-__attribute__ ((hot))
 static void		pass(const t_uint *data, t_uint *var)
 {
 	int			i;
@@ -70,7 +69,6 @@ static void		pass(const t_uint *data, t_uint *var)
 	}
 }
 
-__attribute__ ((hot))
 void			module_sha256(t_args *args, t_file *file)
 {
 	t_uchar		buffer[SHA256_BLOCK];

@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:08 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 19:05:22 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:47:41 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static t_ulong g_consts[80] = {
 #define SIG0(x) (RR((x), 1) ^ RR((x), 8) ^ ((x) >> 7))
 #define SIG1(x) (RR((x), 19) ^ RR((x), 61) ^ ((x) >> 6))
 
-__attribute__ ((hot))
 static void		pass(const t_ulong *data, t_ulong *var)
 {
 	int			i;
@@ -95,7 +94,6 @@ static void		pass(const t_ulong *data, t_ulong *var)
 	}
 }
 
-__attribute__ ((hot))
 void			module_sha512(t_args *args, t_file *file)
 {
 	t_uchar		buffer[SHA512_BLOCK];
@@ -106,14 +104,10 @@ void			module_sha512(t_args *args, t_file *file)
 	ft_memcpy(
 		vars,
 		(t_ulong[SHA512_VARS]){
-			0x6a09e667f3bcc908,
-			0xbb67ae8584caa73b,
-			0x3c6ef372fe94f82b,
-			0xa54ff53a5f1d36f1,
-			0x510e527fade682d1,
-			0x9b05688c2b3e6c1f,
-			0x1f83d9abfb41bd6b,
-			0x5be0cd19137e2179},
+			0x6a09e667f3bcc908, 0xbb67ae8584caa73b,
+			0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
+			0x510e527fade682d1, 0x9b05688c2b3e6c1f,
+			0x1f83d9abfb41bd6b, 0x5be0cd19137e2179},
 		sizeof(vars));
 	while (read_padded_64(file, buffer, big_endian))
 	{

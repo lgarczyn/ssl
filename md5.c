@@ -6,7 +6,7 @@
 /*   By: lgarczyn <lgarczyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 03:09:14 by lgarczyn          #+#    #+#             */
-/*   Updated: 2019/07/22 19:05:34 by lgarczyn         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:46:52 by lgarczyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ static t_uint	rotate_left(t_uint value, t_uint shift)
 	return (value << shift) | (value >> (32 - shift));
 }
 
-__attribute__ ((hot))
 static void		pass(const t_uint *data, t_uint *vars)
 {
 	t_uint		r;
@@ -138,7 +137,6 @@ static void		pass(const t_uint *data, t_uint *vars)
 	}
 }
 
-__attribute__ ((hot))
 void			module_md5(t_args *args, t_file *file)
 {
 	t_uchar		buffer[MD5_BLOCK];
