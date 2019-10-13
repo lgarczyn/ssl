@@ -29,7 +29,7 @@ LIB = -L libft/ -lft
 
 DEB =
 
-OPT = -g # -O3 -flto
+OPT = -O3 -flto -march=native
 
 all:
 	$(MAKE) -j8 $(NAME)
